@@ -1,6 +1,7 @@
 package moe.sannaha.dao;
 
 import moe.sannaha.pojo.DailyLog;
+import moe.sannaha.pojo.IpPool;
 import moe.sannaha.utils.JDBCUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -23,7 +24,6 @@ public class DailyLogDaoImpl implements DailyLogDao {
     public List<DailyLog> query() throws SQLException {
         String sql = "select id,d_date,t_waketime,t_bedtime,vc_improvetime,vc_improve,vc_fishingtime,vc_fishing,vc_eurekatime,vc_eureka,vc_activitytime,vc_activity,vc_point,vc_remark,t_updatetime from fact_dailylog order by d_date desc";
         return qr.query(sql, new BeanListHandler<DailyLog>(DailyLog.class));
-
     }
 
     //添加
@@ -69,4 +69,12 @@ public class DailyLogDaoImpl implements DailyLogDao {
         String sql = "update fact_dailylog set d_date = ?, t_waketime = ?, t_bedtime = ?, vc_improvetime = ?, vc_improve = ?, vc_fishingtime = ?, vc_fishing = ?, vc_eurekatime = ?, vc_eureka = ?, vc_activitytime = ?, vc_activity = ?, vc_point = ?, vc_remark = ?, t_updatetime = ? where id = ?";
         qr.update(sql, dailyLog.getD_date(), sdf1.parse(dailyLog.getT_waketime()), sdf1.parse(dailyLog.getT_bedtime()), dailyLog.getVc_improvetime(), dailyLog.getVc_improve(), dailyLog.getVc_fishingtime(), dailyLog.getVc_fishing(), dailyLog.getVc_eurekatime(), dailyLog.getVc_eureka(), dailyLog.getVc_activitytime(), dailyLog.getVc_activity(), dailyLog.getVc_point(), dailyLog.getVc_remark(), updatetime, dailyLog.getId());
     }
+
+    //ip鉴权
+    @Override
+    public List<IpPool> verify() throws SQLException {
+        String sql = "select id,vc_ipregex from di_ippool";
+        return qr.query(sql, new BeanListHandler<IpPool>(IpPool.class));
+    }
+
 }

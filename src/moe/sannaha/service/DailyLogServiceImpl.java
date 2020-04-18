@@ -2,11 +2,11 @@ package moe.sannaha.service;
 
 import moe.sannaha.dao.DailyLogDaoImpl;
 import moe.sannaha.pojo.DailyLog;
+import moe.sannaha.pojo.IpPool;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DailyLogServiceImpl implements DailyLogService {
@@ -43,5 +43,15 @@ public class DailyLogServiceImpl implements DailyLogService {
     @Override
     public void update(DailyLog dailyLog) throws ParseException, SQLException {
         dailyLogDao.update(dailyLog);
+    }
+
+    @Override
+    public ArrayList<String> queryIpPool() throws SQLException {
+        List<IpPool> ipPoolList = dailyLogDao.verify();
+        ArrayList<String> ipRegexList = new ArrayList<>();
+        for (IpPool ipPool : ipPoolList) {
+            ipRegexList.add(ipPool.getVc_ipregex());
+        }
+        return ipRegexList;
     }
 }

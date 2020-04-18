@@ -1,6 +1,7 @@
 package moe.sannaha.dao;
 
 import moe.sannaha.pojo.DailyLog;
+import moe.sannaha.pojo.IpPool;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -21,4 +22,7 @@ public interface DailyLogDao {
 
     //修改
     void update(DailyLog dailyLog) throws ParseException, SQLException;
+
+    //ip鉴权
+    List<IpPool> verify() throws SQLException;
 }

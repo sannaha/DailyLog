@@ -2,6 +2,7 @@ package moe.sannaha.web;
 
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.service.DailyLogServiceImpl;
+import moe.sannaha.utils.AuthenticateUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "AddServlet", urlPatterns = "/add")
 public class AddServlet extends HttpServlet {
@@ -37,20 +40,44 @@ public class AddServlet extends HttpServlet {
         dailyLog.setVc_activity(req.getParameter("vc_activity"));
         dailyLog.setVc_remark(req.getParameter("vc_remark"));
 
-        //校验起床时间和上床时间
-        if (dailyLog.getT_bedtime().compareTo(dailyLog.getT_waketime()) < 0) {
-            resp.getWriter().print("<script language='javascript'>alert('上床时间不能早于起床时间');history.go(-1);</script>");
-            //window.location.href='add.jsp';
+        DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
-        } else {
-            DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
-            try {
-                dailyLogService.add(dailyLog);
-                resp.getWriter().print("<script language='javascript'>alert('添加成功');window.location.href='query';</script>");
-            } catch (Exception e) {
-                e.printStackTrace();
-                resp.getWriter().print("<script language='javascript'>alert('添加失败');history.go(-1);</script>");
+        String remoteAddr = req.getRemoteAddr();
+        System.out.println("remoteAddr:" + remoteAddr);
+
+        //获取真实IP
+        String remoteIP = AuthenticateUtils.getRemoteIP(req);
+        System.out.println("remoteIP:" + remoteIP);
+
+        boolean ipFlag = false;
+
+        //ip鉴权
+        try {
+            List<String> ipRegexList = dailyLogService.queryIpPool();
+            for (String ipRegex : ipRegexList) {
+                if (remoteIP != null && remoteIP.matches(ipRegex)) {
+                    ipFlag = true;
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (ipFlag) {
+            //校验起床时间和上床时间
+            if (dailyLog.getT_bedtime() != null && dailyLog.getT_bedtime().compareTo(dailyLog.getT_waketime()) < 0) {
+                resp.getWriter().print("<script language='javascript'>alert('上床时间不能早于起床时间');history.go(-1);</script>");
+            } else {
+                try {
+                    dailyLogService.add(dailyLog);
+                    resp.getWriter().print("<script language='javascript'>alert('添加成功');window.location.href='query';</script>");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    resp.getWriter().print("<script language='javascript'>alert('添加失败');history.go(-1);</script>");
+                }
+            }
+        } else {
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='query';</script>");
         }
 
     }
