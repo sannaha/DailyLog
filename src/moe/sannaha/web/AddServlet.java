@@ -42,12 +42,11 @@ public class AddServlet extends HttpServlet {
 
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
+        //获取IP
         String remoteAddr = req.getRemoteAddr();
-        System.out.println("remoteAddr:" + remoteAddr);
-
-        //获取真实IP
+        //获取访客真实IP
         String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteIP:" + remoteIP);
+        System.out.println("remoteAddr:" + remoteAddr + "\tremoteIP:" + remoteIP + "\taddDate:" + req.getParameter("d_date"));
 
         boolean ipFlag = false;
 

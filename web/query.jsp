@@ -6,13 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <script src="js/jquery-1.11.3.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery/jquery-1.11.3.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+        function confirmDel(param) {
+            if (window.confirm("您确定要删除该条记录吗？")) {
+                document.location = "delete?id=" + param
+            }
+        }
+    </script>
+
     <style>
         tr th {
             text-align: center;
             background-color: #e3e3e3;
+        }
+    </style>
+    <style type="text/css">
+        .ellipsis {
+            overflow: hidden; /*自动隐藏文字*/
+            text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+            white-space: nowrap;/*强制不换行*/
+            width: 14em;/*不允许出现半汉字截断*/
         }
     </style>
 </head>
@@ -59,17 +75,17 @@
             <td>${dailylog.t_waketime}</td>
             <td>${dailylog.t_bedtime}</td>
             <td>${dailylog.vc_improvetime}</td>
-            <td>${dailylog.vc_improve}</td>
+            <td><div class="ellipsis" title="${dailylog.vc_improve}">${dailylog.vc_improve}</div></td>
             <td>${dailylog.vc_fishingtime}</td>
-            <td>${dailylog.vc_fishing}</td>
+            <td><div class="ellipsis" title="${dailylog.vc_fishing}">${dailylog.vc_fishing}</div></td>
             <td>${dailylog.vc_eurekatime}</td>
-            <td>${dailylog.vc_eureka}</td>
+            <td><div class="ellipsis" title="${dailylog.vc_eureka}">${dailylog.vc_eureka}</div></td>
             <td>${dailylog.vc_activitytime}</td>
-            <td>${dailylog.vc_activity}</td>
+            <td><div class="ellipsis" title="${dailylog.vc_activity}">${dailylog.vc_activity}</div></td>
             <td>${dailylog.vc_point}</td>
-            <td>${dailylog.vc_remark}</td>
+            <td><div class="ellipsis" title="${dailylog.vc_remark}">${dailylog.vc_remark}</div></td>
             <td>
-                <a href="delete?id=${dailylog.id}" class="btn btn-danger">删除</a>
+                <a class="btn btn-danger" onclick="confirmDel(${dailylog.id})">删除</a>
                 <a href="queryById?id=${dailylog.id}" class="btn btn-primary">修改</a>
             </td>
         </tr>

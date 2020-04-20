@@ -16,8 +16,8 @@
     <title>添加记录</title>
 
     <!-- 1. 导入CSS的全局样式 -->
-    <link href="https://sannaha.moe/DailyLog/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="https://sannaha.moe/DailyLog/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="https://dailylog.sannaha.moe/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="https://dailylog.sannaha.moe/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
 
 </head>
@@ -151,11 +151,11 @@
 </div>
 
 <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
-<script type="text/javascript" src="js/jquery-1.11.3.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://dailylog.sannaha.moe/jquery/jquery-1.11.3.js" charset="UTF-8"></script>
 <!-- 3. 导入bootstrap的js文件 -->
-<script type="text/javascript" src="https://sannaha.moe/DailyLog/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://sannaha.moe/DailyLog/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="https://sannaha.moe/DailyLog/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://dailylog.sannaha.moe/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://dailylog.sannaha.moe/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://dailylog.sannaha.moe/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
         //language:  'zh-CN',

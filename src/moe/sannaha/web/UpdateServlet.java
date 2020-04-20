@@ -40,16 +40,13 @@ public class UpdateServlet extends HttpServlet {
         dailyLog.setVc_activity(req.getParameter("vc_activity"));
         dailyLog.setVc_remark(req.getParameter("vc_remark"));
 
-        System.out.println(dailyLog);
-
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
+        //获取IP
         String remoteAddr = req.getRemoteAddr();
-        System.out.println(remoteAddr);
-
-        //获取真实IP
+        //获取访客真实IP
         String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteIP:" + remoteIP);
+        System.out.println("remoteAddr:" + remoteAddr + "\t" + "remoteIP:" + remoteIP + "\tupdateDate:" + req.getParameter("d_date"));
 
         boolean ipFlag = false;
 
@@ -69,7 +66,6 @@ public class UpdateServlet extends HttpServlet {
             //校验起床时间和上床时间
             if (dailyLog.getT_bedtime() != null && dailyLog.getT_bedtime().compareTo(dailyLog.getT_waketime()) < 0) {
                 resp.getWriter().print("<script language='javascript'>alert('上床时间不能早于起床时间');history.go(-1);</script>");
-                //window.location.href='add.jsp';
             } else {
                 try {
                     dailyLogService.update(dailyLog);

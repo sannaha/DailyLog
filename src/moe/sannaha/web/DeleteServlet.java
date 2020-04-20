@@ -27,12 +27,11 @@ public class DeleteServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
+        //获取IP
         String remoteAddr = req.getRemoteAddr();
-        System.out.println(remoteAddr);
-
-        //获取真实IP
+        //获取访客真实IP
         String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteIP:" + remoteIP);
+        System.out.println("remoteAddr:" + remoteAddr + "\t" + "remoteIP:" + remoteIP + "\t" + "id:" + id);
 
         boolean ipFlag = false;
 
