@@ -51,13 +51,13 @@ public class DeleteServlet extends HttpServlet {
             //删除
             try {
                 dailyLogService.delete(id);
-                resp.getWriter().print("<script language='javascript'>alert('删除成功');window.location.href='query';</script>");
+                resp.getWriter().print("<script language='javascript'>alert('删除成功');window.location.href='https://dailylog.sannaha.moe/query';</script>");
             } catch (SQLException e) {
                 e.printStackTrace();
-                resp.getWriter().print("<script language='javascript'>alert('删除失败');window.location.href='query';</script>");
+                resp.getWriter().print("<script language='javascript'>alert('删除失败');window.location.href='https://dailylog.sannaha.moe/query';</script>");
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='query';</script>");
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/query';</script>");
         }
 
     }

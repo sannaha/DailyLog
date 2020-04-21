@@ -26,9 +26,9 @@
     <style type="text/css">
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
-            text-overflow: ellipsis;/*文字隐藏后添加省略号*/
-            white-space: nowrap;/*强制不换行*/
-            width: 14em;/*不允许出现半汉字截断*/
+            text-overflow: ellipsis; /*文字隐藏后添加省略号*/
+            white-space: nowrap; /*强制不换行*/
+            width: 14em; /*不允许出现半汉字截断*/
         }
     </style>
 </head>
@@ -75,15 +75,25 @@
             <td>${dailylog.t_waketime}</td>
             <td>${dailylog.t_bedtime}</td>
             <td>${dailylog.vc_improvetime}</td>
-            <td><div class="ellipsis" title="${dailylog.vc_improve}">${dailylog.vc_improve}</div></td>
+            <td>
+                <div class="ellipsis" title="${dailylog.vc_improve}">${dailylog.vc_improve}</div>
+            </td>
             <td>${dailylog.vc_fishingtime}</td>
-            <td><div class="ellipsis" title="${dailylog.vc_fishing}">${dailylog.vc_fishing}</div></td>
+            <td>
+                <div class="ellipsis" title="${dailylog.vc_fishing}">${dailylog.vc_fishing}</div>
+            </td>
             <td>${dailylog.vc_eurekatime}</td>
-            <td><div class="ellipsis" title="${dailylog.vc_eureka}">${dailylog.vc_eureka}</div></td>
+            <td>
+                <div class="ellipsis" title="${dailylog.vc_eureka}">${dailylog.vc_eureka}</div>
+            </td>
             <td>${dailylog.vc_activitytime}</td>
-            <td><div class="ellipsis" title="${dailylog.vc_activity}">${dailylog.vc_activity}</div></td>
+            <td>
+                <div class="ellipsis" title="${dailylog.vc_activity}">${dailylog.vc_activity}</div>
+            </td>
             <td>${dailylog.vc_point}</td>
-            <td><div class="ellipsis" title="${dailylog.vc_remark}">${dailylog.vc_remark}</div></td>
+            <td>
+                <div class="ellipsis" title="${dailylog.vc_remark}">${dailylog.vc_remark}</div>
+            </td>
             <td>
                 <a class="btn btn-danger" onclick="confirmDel(${dailylog.id})">删除</a>
                 <a href="queryById?id=${dailylog.id}" class="btn btn-primary">修改</a>
