@@ -18,6 +18,8 @@
     <!-- 1. 导入CSS的全局样式 -->
     <link href="https://dailylog.sannaha.moe/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://dailylog.sannaha.moe/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <!--  网站图标 -->
+    <link rel="shortcut icon" href="images/favicon-32x32.ico">
 
 
 </head>
@@ -69,8 +71,8 @@
                 <option value="4">4小时</option>
                 <option value="5">5小时</option>
                 <option value="6">6小时</option>
-                <option value="7">6小时</option>
-                <option value="8">6小时</option>
+                <option value="7">7小时</option>
+                <option value="8">8小时</option>
             </select>
         </div>
 
@@ -89,8 +91,8 @@
                 <option value="4">4小时</option>
                 <option value="5">5小时</option>
                 <option value="6">6小时</option>
-                <option value="7">6小时</option>
-                <option value="8">6小时</option>
+                <option value="7">7小时</option>
+                <option value="8">8小时</option>
             </select>
         </div>
 
@@ -109,8 +111,8 @@
                 <option value="4">4小时</option>
                 <option value="5">5小时</option>
                 <option value="6">6小时</option>
-                <option value="7">6小时</option>
-                <option value="8">6小时</option>
+                <option value="7">7小时</option>
+                <option value="8">8小时</option>
             </select>
         </div>
 
@@ -129,6 +131,8 @@
                 <option value="4">4小时</option>
                 <option value="5">5小时</option>
                 <option value="6">6小时</option>
+                <option value="7">7小时</option>
+                <option value="8">8小时</option>
             </select>
         </div>
 

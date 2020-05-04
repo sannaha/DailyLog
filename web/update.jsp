@@ -24,6 +24,8 @@
     <!-- 1. 导入CSS的全局样式 -->
     <link href="https://dailylog.sannaha.moe/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://dailylog.sannaha.moe/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <!--  网站图标 -->
+    <link rel="shortcut icon" href="images/favicon-32x32.ico">
 
 
 </head>
@@ -136,6 +138,8 @@
                 <option value="4" <c:if test="${dailyLog.vc_activitytime == '4'}">selected="selected"</c:if>>4小时</option>
                 <option value="5" <c:if test="${dailyLog.vc_activitytime == '5'}">selected="selected"</c:if>>5小时</option>
                 <option value="6" <c:if test="${dailyLog.vc_activitytime == '6'}">selected="selected"</c:if>>6小时</option>
+                <option value="7" <c:if test="${dailyLog.vc_activitytime == '7'}">selected="selected"</c:if>>7小时</option>
+                <option value="8" <c:if test="${dailyLog.vc_activitytime == '8'}">selected="selected"</c:if>>8小时</option>
             </select>
         </div>
 

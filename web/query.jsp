@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!--  网站图标 -->
+    <link rel="shortcut icon" href="images/favicon-32x32.ico">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="jquery/jquery-1.11.3.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
