@@ -2,6 +2,7 @@ package moe.sannaha.dao;
 
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.pojo.IpPool;
+import moe.sannaha.pojo.Point;
 import moe.sannaha.utils.JDBCUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -26,6 +27,13 @@ public class DailyLogDaoImpl implements DailyLogDao {
         return qr.query(sql, new BeanListHandler<DailyLog>(DailyLog.class));
     }
 
+    //查询（无权限用户）
+    @Override
+    public List<Point> show() throws SQLException {
+        String sql = "select d_date,vc_point from (select d_date,vc_point from fact_dailylog order by d_date desc) a order by a.d_date;";
+        return qr.query(sql, new BeanListHandler<Point>(Point.class));
+    }
+
     //添加
     @Override
     public void add(DailyLog dailyLog) throws ParseException, SQLException {
@@ -36,6 +44,7 @@ public class DailyLogDaoImpl implements DailyLogDao {
         String sql = "insert into fact_dailylog(id, d_date,t_waketime,t_bedtime,vc_improvetime,vc_improve,vc_fishingtime,vc_fishing,vc_eurekatime,vc_eureka,vc_activitytime,vc_activity,vc_point,vc_remark,t_updatetime) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         qr.update(sql, dailyLog.getId(), dailyLog.getD_date(), sdf1.parse(dailyLog.getT_waketime()), sdf1.parse(dailyLog.getT_bedtime()), dailyLog.getVc_improvetime(), dailyLog.getVc_improve(), dailyLog.getVc_fishingtime(), dailyLog.getVc_fishing(), dailyLog.getVc_eurekatime(), dailyLog.getVc_eureka(), dailyLog.getVc_activitytime(), dailyLog.getVc_activity(), dailyLog.getVc_point(), dailyLog.getVc_remark(), updatetime);
     }
+
 
     //删除
     @Override
@@ -66,8 +75,8 @@ public class DailyLogDaoImpl implements DailyLogDao {
         Date updatetime = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        String sql = "update fact_dailylog set d_date = ?, t_waketime = ?, t_bedtime = ?, vc_improvetime = ?, vc_improve = ?, vc_fishingtime = ?, vc_fishing = ?, vc_eurekatime = ?, vc_eureka = ?, vc_activitytime = ?, vc_activity = ?, vc_point = ?, vc_remark = ?, t_updatetime = ? where id = ?";
-        qr.update(sql, dailyLog.getD_date(), sdf1.parse(dailyLog.getT_waketime()), sdf1.parse(dailyLog.getT_bedtime()), dailyLog.getVc_improvetime(), dailyLog.getVc_improve(), dailyLog.getVc_fishingtime(), dailyLog.getVc_fishing(), dailyLog.getVc_eurekatime(), dailyLog.getVc_eureka(), dailyLog.getVc_activitytime(), dailyLog.getVc_activity(), dailyLog.getVc_point(), dailyLog.getVc_remark(), updatetime, dailyLog.getId());
+        String sql = "update fact_dailylog set d_date = ?, t_waketime = ?, t_bedtime = ?, vc_improvetime = ?, vc_improve = ?, vc_fishingtime = ?, vc_fishing = ?, vc_eurekatime = ?, vc_eureka = ?, vc_activitytime = ?, vc_activity = ?, vc_remark = ?, t_updatetime = ? where id = ?";
+        qr.update(sql, dailyLog.getD_date(), sdf1.parse(dailyLog.getT_waketime()), sdf1.parse(dailyLog.getT_bedtime()), dailyLog.getVc_improvetime(), dailyLog.getVc_improve(), dailyLog.getVc_fishingtime(), dailyLog.getVc_fishing(), dailyLog.getVc_eurekatime(), dailyLog.getVc_eureka(), dailyLog.getVc_activitytime(), dailyLog.getVc_activity(), dailyLog.getVc_remark(), updatetime, dailyLog.getId());
     }
 
     //ip鉴权

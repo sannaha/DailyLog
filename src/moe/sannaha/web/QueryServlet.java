@@ -2,6 +2,7 @@ package moe.sannaha.web;
 
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.service.DailyLogServiceImpl;
+import moe.sannaha.utils.AuthenticateUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,19 +17,23 @@ import java.util.List;
 public class QueryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            req.setCharacterEncoding("UTF-8");
-            resp.setContentType("text/html;charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=utf-8");
 
-            DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
-            List<DailyLog> list = null;
-
-            list = dailyLogService.queryDailyLog();
-
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("query.jsp").forward(req, resp);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        //IP鉴权
+        boolean ipFlag = AuthenticateUtils.getIPFlag(req, "query");
+        if (ipFlag) {
+            try {
+                DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
+                List<DailyLog> list = null;
+                list = dailyLogService.queryDailyLog();
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("query.jsp").forward(req, resp);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            resp.getWriter().print("<script language='javascript'>window.location.href='https://dailylog.sannaha.moe/show.html';</script>");
         }
     }
 

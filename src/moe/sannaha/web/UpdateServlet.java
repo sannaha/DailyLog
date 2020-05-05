@@ -42,26 +42,8 @@ public class UpdateServlet extends HttpServlet {
 
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
-        //获取IP
-        String remoteAddr = req.getRemoteAddr();
-        //获取访客真实IP
-        String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteAddr:" + remoteAddr + "\t" + "remoteIP:" + remoteIP + "\tupdateDate:" + req.getParameter("d_date"));
-
-        boolean ipFlag = false;
-
-        //ip鉴权
-        try {
-            List<String> ipRegexList = dailyLogService.queryIpPool();
-            for (String ipRegex : ipRegexList) {
-                if (remoteIP != null && remoteIP.matches(ipRegex)) {
-                    ipFlag = true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        //IP鉴权
+        boolean ipFlag = AuthenticateUtils.getIPFlag(req, req.getParameter("d_date"));
         if (ipFlag) {
             //校验起床时间和上床时间
             if (dailyLog.getT_bedtime() != null && dailyLog.getT_bedtime().compareTo(dailyLog.getT_waketime()) < 0) {

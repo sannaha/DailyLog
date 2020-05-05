@@ -27,7 +27,8 @@ public class AddServlet extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         DailyLog dailyLog = new DailyLog();
 
-        dailyLog.setD_date(req.getParameter("d_date"));
+        String d_date = req.getParameter("d_date");
+        dailyLog.setD_date(d_date);
         dailyLog.setT_waketime(req.getParameter("t_waketime"));
         dailyLog.setT_bedtime(req.getParameter("t_bedtime"));
         dailyLog.setVc_improvetime(req.getParameter("vc_improvetime"));
@@ -42,26 +43,8 @@ public class AddServlet extends HttpServlet {
 
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
-        //获取IP
-        String remoteAddr = req.getRemoteAddr();
-        //获取访客真实IP
-        String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteAddr:" + remoteAddr + "\tremoteIP:" + remoteIP + "\taddDate:" + req.getParameter("d_date"));
-
-        boolean ipFlag = false;
-
-        //ip鉴权
-        try {
-            List<String> ipRegexList = dailyLogService.queryIpPool();
-            for (String ipRegex : ipRegexList) {
-                if (remoteIP != null && remoteIP.matches(ipRegex)) {
-                    ipFlag = true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        //IP鉴权
+        boolean ipFlag  = AuthenticateUtils.getIPFlag(req, d_date);
         if (ipFlag) {
             //校验起床时间和上床时间
             if (dailyLog.getT_bedtime() != null && dailyLog.getT_bedtime().compareTo(dailyLog.getT_waketime()) < 0) {
@@ -76,7 +59,7 @@ public class AddServlet extends HttpServlet {
                 }
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/query';</script>");
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/show.html';</script>");
         }
 
     }

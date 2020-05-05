@@ -24,29 +24,12 @@ public class DeleteServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=utf-8");
 
-        int id = Integer.parseInt(req.getParameter("id"));
+        String idStr = req.getParameter("id");
+        int id = Integer.parseInt(idStr);
         DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
 
-        //获取IP
-        String remoteAddr = req.getRemoteAddr();
-        //获取访客真实IP
-        String remoteIP = AuthenticateUtils.getRemoteIP(req);
-        System.out.println("remoteAddr:" + remoteAddr + "\t" + "remoteIP:" + remoteIP + "\t" + "id:" + id);
-
-        boolean ipFlag = false;
-
-        //ip鉴权
-        try {
-            List<String> ipRegexList = dailyLogService.queryIpPool();
-            for (String ipRegex : ipRegexList) {
-                if (remoteIP != null && remoteIP.matches(ipRegex)) {
-                    ipFlag = true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        //IP鉴权
+        boolean ipFlag = AuthenticateUtils.getIPFlag(req, idStr);
         if (ipFlag) {
             //删除
             try {
@@ -57,7 +40,7 @@ public class DeleteServlet extends HttpServlet {
                 resp.getWriter().print("<script language='javascript'>alert('删除失败');window.location.href='https://dailylog.sannaha.moe/query';</script>");
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/query';</script>");
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/show.html';</script>");
         }
 
     }

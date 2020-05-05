@@ -3,6 +3,7 @@ package moe.sannaha.service;
 import moe.sannaha.dao.DailyLogDaoImpl;
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.pojo.IpPool;
+import moe.sannaha.pojo.Point;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,8 +21,17 @@ public class DailyLogServiceImpl implements DailyLogService {
         for (DailyLog dailyLog : list) {
             dailyLog.setT_waketime(dailyLog.getT_waketime().substring(11, 19));
             dailyLog.setT_bedtime(dailyLog.getT_bedtime().substring(11, 19));
+            String vc_point = dailyLog.getVc_point();
+            if (vc_point != null) {
+                dailyLog.setVc_point(String.format("%.2f", Double.parseDouble(vc_point)));
+            }
         }
         return list;
+    }
+
+    @Override
+    public List<Point> showDailyLog() throws SQLException {
+        return dailyLogDao.show();
     }
 
     @Override
