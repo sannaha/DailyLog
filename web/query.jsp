@@ -45,6 +45,8 @@
     <tr class="text-center">
         <td colspan="14" align="center">
             <a class="btn btn-primary" href="add.jsp">添加</a>
+            <a class="btn btn-primary" href="show.html">统计</a>
+            <a class="btn btn-primary" onclick="window.location.href='index.html'">首页</a>
         </td>
     </tr>
     <%--表头--%>
