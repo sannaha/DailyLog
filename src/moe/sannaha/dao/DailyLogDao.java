@@ -3,6 +3,7 @@ package moe.sannaha.dao;
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.pojo.IpPool;
 import moe.sannaha.pojo.Point;
+import moe.sannaha.pojo.Sleep;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -12,8 +13,11 @@ public interface DailyLogDao {
     //查询
     List<DailyLog> query() throws SQLException;
 
-    //查询（无权限用户）
-    List<Point> show() throws SQLException;
+    //查询得分（无权限用户）
+    List<Point> showPoint() throws SQLException;
+
+    //查询得分（无权限用户）
+    List<Sleep> showSleep() throws SQLException;
 
     //添加
     void add(DailyLog dailyLog) throws ParseException, SQLException;

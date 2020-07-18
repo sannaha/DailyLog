@@ -1,9 +1,7 @@
 package moe.sannaha.service;
 
 import moe.sannaha.dao.DailyLogDaoImpl;
-import moe.sannaha.pojo.DailyLog;
-import moe.sannaha.pojo.IpPool;
-import moe.sannaha.pojo.Point;
+import moe.sannaha.pojo.*;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -30,8 +28,38 @@ public class DailyLogServiceImpl implements DailyLogService {
     }
 
     @Override
-    public List<Point> showDailyLog() throws SQLException {
-        return dailyLogDao.show();
+    public List<Point> showPoint() throws SQLException {
+        List<Point> pointList = dailyLogDao.showPoint();
+        for (Point point : pointList) {
+            point.setVc_point((double) Math.round(point.getVc_point() * 100) / 100);
+        }
+        return pointList;
+    }
+
+    @Override
+    public List<SleepQuality> showSleep() throws SQLException {
+        int goodTimes = 0;
+        int fairTimes = 0;
+        int poorTimes = 0;
+        List<SleepQuality> sleepQualityList = new ArrayList<SleepQuality>();
+
+        List<Sleep> sleepList = dailyLogDao.showSleep();
+
+        for (Sleep sleep : sleepList) {
+            if (sleep.getVc_sleepTime() >= 7) {
+                goodTimes++;
+            } else if (sleep.getVc_sleepTime() <= 5) {
+                poorTimes++;
+            } else {
+                fairTimes++;
+            }
+        }
+
+        sleepQualityList.add(new SleepQuality("优", goodTimes));
+        sleepQualityList.add(new SleepQuality("良", fairTimes));
+        sleepQualityList.add(new SleepQuality("差", poorTimes));
+
+        return sleepQualityList;
     }
 
     @Override
@@ -46,8 +74,7 @@ public class DailyLogServiceImpl implements DailyLogService {
 
     @Override
     public DailyLog queryById(int id) throws SQLException {
-        DailyLog dailyLog = dailyLogDao.queryById(id);
-        return dailyLog;
+        return dailyLogDao.queryById(id);
     }
 
     @Override

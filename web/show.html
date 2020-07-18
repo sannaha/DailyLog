@@ -4,38 +4,85 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width， initial-scale=1" />
     <meta name="keywords" content="SANNAHA">
     <link rel="icon" href="http://sannaha.moe/images/favicon-32x32.ico" type="image/x-icon">
-    <title>得分统计</title>
+    <title>统计数据展示</title>
     <style type="text/css">
-        .custom {
-            width: 1000px;
-            height: 800px;
-            margin: auto;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+
+        /* 大屏幕 ：大于等于1200px*/
+        @media (min-width: 1200px) {
+            .custom {
+                width: 1000px;
+                height: 600px;
+                margin: auto;
+                padding: 10px 0 10px 0;
+                top: 10px;
+            }
+        }
+
+        /*默认*/
+        @media (min-width: 980px){
+            .custom {
+                width: 800px;
+                height: 450px;
+                margin: auto;
+                padding: 10px 0 10px 0;
+                top: 10px;
+            }
+        }
+
+        /* 平板电脑和小屏电脑之间的分辨率 */
+        @media (min-width: 768px) and (max-width: 979px) {
+            .custom {
+                width: 800px;
+                height: 600px;
+                margin: auto;
+                padding: 10px 0 10px 0;
+                top: 10px;
+            }
+        }
+
+        /* 横向放置的手机和竖向放置的平板之间的分辨率 */
+        @media (max-width: 767px) {
+            .custom {
+                width: 700px;
+                height: 600px;
+                margin: auto;
+                padding: 10px 0 10px 0;
+                top: 10px;
+            }
+        }
+
+        /* 横向放置的手机及分辨率更小的设备 */
+        @media (max-width: 480px) {
+            .custom {
+                width: 450px;
+                height: 400px;
+                margin: auto;
+                padding: 10px 0 10px 0;
+                top: 10px;
+            }
         }
     </style>
 </head>
-<!-- 引入 ECharts 文件 -->
 <script src="js/echarts.min.js"></script>
 <script src="jquery/jquery-1.11.3.js"></script>
 <body>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<!--<div class="custom" id="point" style="width: 600px;height:400px;"></div>-->
 <div class="custom" id="point"></div>
-</body>
+<div class="custom" id="sleep"></div>
 <script type="text/javascript">
     var pointChart = echarts.init(document.getElementById('point'));
+    var sleepChart = echarts.init(document.getElementById('sleep'));
+
     pointChart.setOption({
         title: {
-            text: '得分统计'
+            text: '得分统计',
+            subtext: '（近30天）'
         },
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            formatter: '{b}<br/>{a} : {c}'
         },
         xAxis: {
             data: []
@@ -43,9 +90,6 @@
         toolbox: {
             left: 'center',
             feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
-                },
                 restore: {},
                 saveAsImage: {}
             }
@@ -59,27 +103,29 @@
             top: 10,
             right: 10,
             pieces: [{
-                gt: 90,
-                lte: 200,
-                color: '#096'
-            }, {
                 gt: 80,
-                lte: 90,
-                color: '#ffde33'
+                color: '#096'
             }, {
                 gt: 60,
                 lte: 80,
+                color: '#ffde33'
+            }, {
+                gt: 30,
+                lte: 60,
                 color: '#ff9933'
             }, {
-                gt: -100,
-                lte: 60,
+                lte: 30,
                 color: '#960328'
             }],
             outOfRange: {
                 color: '#999'
             }
         },
-        yAxis: {},
+        yAxis: {
+            splitLine: {
+                show: false
+            }
+        },
         series: [{
             name: '得分',
             type: 'line',
@@ -87,11 +133,11 @@
             markLine: {
                 silent: true,
                 data: [{
+                    yAxis: 30
+                }, {
                     yAxis: 60
                 }, {
                     yAxis: 80
-                }, {
-                    yAxis: 90
                 }, {
                     yAxis: 100
                 }]
@@ -100,35 +146,110 @@
     });
 
     pointChart.showLoading();
-    var dates=[];
+    var pointDates = [];
     var points = [];
+    var pointStartDate = '';
 
     $.ajax({
         type: "post",
         async: true,
-        url:"show",
-        data:{},
-        dataType:"json",
-        success:function (result) {
+        url: "showPoint",
+        data: {},
+        dataType: "json",
+        success: function (result) {
             if (result) {
+                pointStartDate = result[result.length - 7].d_date;
                 for (var i = 0; i < result.length; i++) {
-                    dates.push(result[i].d_date);
+                    pointDates.push(result[i].d_date);
                     points.push(result[i].vc_point);
                 }
                 pointChart.hideLoading();
                 pointChart.setOption({
+                    dataZoom: [{
+                        startValue: pointStartDate
+                    }],
                     xAxis: {
-                        data: dates
+                        data: pointDates
                     },
                     series: [{
-                        name: '得分',
-                        type: 'line',
                         data: points
                     }]
                 });
             }
         }
-    })
+    });
 
+    sleepChart.setOption({
+        title: {
+            text: '睡眠质量',
+            subtext: '（近7天）'
+        },
+        toolbox: {
+            left: 'center',
+            feature: {
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a}<br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'right',
+            data: []
+        },
+        series: [
+            {
+                name: '睡眠质量',
+                type: 'pie',
+                radius: '75%',
+                center: ['50%', '60%'],
+                data: [],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    });
+
+    sleepChart.showLoading();
+    var qualities = [];
+    var sleepData = [];
+
+    $.ajax({
+        type: "post",
+        async: true,
+        url: "showSleepQuality",
+        data: {},
+        dataType: "json",
+        success: function (result) {
+            if (result) {
+                for (var i = 0; i < result.length; i++) {
+                    qualities.push(result[i].quality);
+                    var obj = {};
+                    obj.name = result[i].quality;
+                    obj.value = result[i].times;
+                    sleepData.push(obj);
+                }
+                sleepChart.hideLoading();
+                sleepChart.setOption({
+                    legend: {
+                        data: qualities
+                    },
+                    series: [{
+                        data: sleepData
+                    }]
+                });
+            }
+        }
+    });
 </script>
+</body>
+
 </html>

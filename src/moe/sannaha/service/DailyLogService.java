@@ -1,8 +1,6 @@
 package moe.sannaha.service;
 
-import moe.sannaha.pojo.DailyLog;
-import moe.sannaha.pojo.IpPool;
-import moe.sannaha.pojo.Point;
+import moe.sannaha.pojo.*;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -11,7 +9,9 @@ import java.util.List;
 public interface DailyLogService {
     List<DailyLog> queryDailyLog() throws SQLException;
 
-    List<Point> showDailyLog() throws SQLException;
+    List<Point> showPoint() throws SQLException;
+
+    List<SleepQuality> showSleep() throws SQLException;
 
     void add(DailyLog dailyLog) throws ParseException, SQLException;
 

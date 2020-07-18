@@ -1,8 +1,7 @@
 package moe.sannaha.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import moe.sannaha.pojo.DailyLog;
-import moe.sannaha.pojo.Point;
+import moe.sannaha.pojo.SleepQuality;
 import moe.sannaha.service.DailyLogServiceImpl;
 
 import javax.servlet.ServletException;
@@ -14,11 +13,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ShowServlet",urlPatterns = "/show")
-public class ShowServlet extends HttpServlet {
+@WebServlet(name = "ShowSleepQualityServlet", urlPatterns = "/showSleepQuality")
+public class ShowSleepQualityServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doPost(req,resp);
+        this.doPost(req, resp);
     }
 
     @Override
@@ -28,11 +27,12 @@ public class ShowServlet extends HttpServlet {
 
         try {
             DailyLogServiceImpl dailyLogService = new DailyLogServiceImpl();
-            List<Point> list = null;
-            list = dailyLogService.showDailyLog();
+
+            List<SleepQuality> sleepQualityList = dailyLogService.showSleep();
+
             ObjectMapper om = new ObjectMapper();
-            String pointJson = om.writeValueAsString(list);
-            resp.getWriter().write(pointJson);
+            String sleepQualityJson = om.writeValueAsString(sleepQualityList);
+            resp.getWriter().write(sleepQualityJson);
         } catch (SQLException e) {
             e.printStackTrace();
         }

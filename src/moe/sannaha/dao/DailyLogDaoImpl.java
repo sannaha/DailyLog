@@ -3,6 +3,7 @@ package moe.sannaha.dao;
 import moe.sannaha.pojo.DailyLog;
 import moe.sannaha.pojo.IpPool;
 import moe.sannaha.pojo.Point;
+import moe.sannaha.pojo.Sleep;
 import moe.sannaha.utils.JDBCUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -18,7 +19,7 @@ import java.util.List;
 public class DailyLogDaoImpl implements DailyLogDao {
 
     private DataSource dataSource = JDBCUtils.getDataSource();
-    QueryRunner qr = new QueryRunner(dataSource);
+    private QueryRunner qr = new QueryRunner(dataSource);
 
     //查询
     @Override
@@ -27,11 +28,18 @@ public class DailyLogDaoImpl implements DailyLogDao {
         return qr.query(sql, new BeanListHandler<DailyLog>(DailyLog.class));
     }
 
-    //查询（无权限用户）
+    //查询得分（无权限用户）
     @Override
-    public List<Point> show() throws SQLException {
-        String sql = "select d_date,vc_point from (select d_date,vc_point from fact_dailylog order by d_date desc) a order by a.d_date;";
+    public List<Point> showPoint() throws SQLException {
+        String sql = "select d_date,vc_point from (select d_date,vc_point from fact_dailylog order by d_date desc limit 30) t1 order by d_date;";
         return qr.query(sql, new BeanListHandler<Point>(Point.class));
+    }
+
+    //查询睡觉时长（无权限用户）
+    @Override
+    public List<Sleep> showSleep() throws SQLException {
+        String sql = "select d_date,vc_sleepTime from ( select t1.d_date,round(time_to_sec(timediff(t1.t_waketime,t2.t_bedtime))/3600,1) vc_sleepTime from fact_dailylog t1 join ( SELECT DATE_add(d_date,INTERVAL '1' DAY) d_date_add,t_bedtime FROM fact_dailylog ) t2 on t1.d_date=t2.d_date_add order by t1.d_date desc limit 7) t3 order by d_date;";
+        return qr.query(sql, new BeanListHandler<Sleep>(Sleep.class));
     }
 
     //添加
