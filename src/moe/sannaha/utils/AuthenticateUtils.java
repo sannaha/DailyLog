@@ -37,6 +37,4 @@ public class AuthenticateUtils {
         System.out.println(DateUtils.getCurrentDate() + "\toperate:"+ operate+"\tremoteIP:" + remoteIP + "\tremoteAddr" + remoteAddr + "\t" + ipFlag);
         return ipFlag;
     }
-
-
 }

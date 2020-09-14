@@ -33,7 +33,7 @@ public class QueryServlet extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>window.location.href='https://dailylog.sannaha.moe/show.html';</script>");
+            resp.getWriter().print("<script language='javascript'>window.location.href='show.html';</script>");
         }
     }
 

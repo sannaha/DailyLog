@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!--  网站图标 -->
+    <title>DailyLog</title>
     <link rel="shortcut icon" href="images/favicon-32x32.ico">
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dailylog.css" rel="stylesheet"/>
     <script src="jquery/jquery-1.11.3.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
@@ -18,38 +18,17 @@
             }
         }
     </script>
-
-    <style>
-        tr th {
-            text-align: center;
-            background-color: #e3e3e3;
-        }
-    </style>
-    <style type="text/css">
-        .ellipsis {
-            overflow: hidden; /*自动隐藏文字*/
-            text-overflow: ellipsis; /*文字隐藏后添加省略号*/
-            white-space: nowrap; /*强制不换行*/
-            width: 14em; /*不允许出现半汉字截断*/
-        }
-    </style>
 </head>
 <body>
-
+<h1>DailyLog</h1>
 <table class="table table-bordered table-hover">
-    <caption>
-        <h1>
-            <center>摸鱼日记</center>
-        </h1>
-    </caption>
     <tr class="text-center">
-        <td colspan="14" align="center">
+        <td colspan="14">
             <a class="btn btn-primary" href="add.jsp">添加</a>
             <a class="btn btn-primary" href="show.html">统计</a>
-            <a class="btn btn-primary" onclick="window.location.href='index.html'">首页</a>
+            <a class="btn btn-primary" href="index.html">首页</a>
         </td>
     </tr>
-    <%--表头--%>
     <tr class="text-center">
         <th hidden>id</th>
         <th>日期</th>
@@ -67,11 +46,6 @@
         <th>备注</th>
         <th></th>
     </tr>
-    <%--
-        <c:forEach item=${list}   var="dailylog" >
-            <tr>一条记录  每个td是记录的属性值
-        <c:forEach>
-    --%>
     <c:forEach items="${list}" var="dailylog">
         <tr class="text-center">
             <td hidden>${dailylog.id}</td>
@@ -104,8 +78,6 @@
             </td>
         </tr>
     </c:forEach>
-
 </table>
-
 </body>
 </html>

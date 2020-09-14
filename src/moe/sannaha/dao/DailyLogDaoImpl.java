@@ -28,17 +28,17 @@ public class DailyLogDaoImpl implements DailyLogDao {
         return qr.query(sql, new BeanListHandler<DailyLog>(DailyLog.class));
     }
 
-    //查询得分（无权限用户）
+    //查询用于计算得分的字段（无权限用户）
     @Override
-    public List<Point> showPoint() throws SQLException {
-        String sql = "select d_date,vc_point from (select d_date,vc_point from fact_dailylog order by d_date desc limit 30) t1 order by d_date;";
-        return qr.query(sql, new BeanListHandler<Point>(Point.class));
+    public List<DailyLog> showPoint() throws SQLException {
+        String sql = "select d_date,vc_improvetime,vc_eurekatime,vc_fishingtime,vc_activity from (select d_date,vc_improvetime,vc_eurekatime,vc_fishingtime,vc_activity from fact_dailylog order by d_date desc limit 30) t1 order by d_date";
+        return qr.query(sql, new BeanListHandler<DailyLog>(DailyLog.class));
     }
 
     //查询睡觉时长（无权限用户）
     @Override
     public List<Sleep> showSleep() throws SQLException {
-        String sql = "select d_date,vc_sleepTime from ( select t1.d_date,round(time_to_sec(timediff(t1.t_waketime,t2.t_bedtime))/3600,1) vc_sleepTime from fact_dailylog t1 join ( SELECT DATE_add(d_date,INTERVAL '1' DAY) d_date_add,t_bedtime FROM fact_dailylog ) t2 on t1.d_date=t2.d_date_add order by t1.d_date desc limit 7) t3 order by d_date;";
+        String sql = "select d_date,vc_sleepTime from ( select t1.d_date,round(time_to_sec(timediff(t1.t_waketime,t2.t_bedtime))/3600,1) vc_sleepTime from fact_dailylog t1 join ( SELECT DATE_add(d_date,INTERVAL '1' DAY) d_date_add,t_bedtime FROM fact_dailylog ) t2 on t1.d_date=t2.d_date_add order by t1.d_date desc limit 7) t3 order by d_date";
         return qr.query(sql, new BeanListHandler<Sleep>(Sleep.class));
     }
 

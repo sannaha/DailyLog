@@ -4,150 +4,82 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width， initial-scale=1" />
-    <meta name="keywords" content="SANNAHA">
-    <link rel="icon" href="http://sannaha.moe/images/favicon-32x32.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width， initial-scale=1"/>
+    <link href="images/favicon-32x32.ico" rel="icon" type="image/x-icon">
+    <link href="css/show.css" rel="stylesheet" type="text/css"/>
     <title>统计数据展示</title>
-    <style type="text/css">
-
-        /* 大屏幕 ：大于等于1200px*/
-        @media (min-width: 1200px) {
-            .custom {
-                width: 1000px;
-                height: 600px;
-                margin: auto;
-                padding: 10px 0 10px 0;
-                top: 10px;
-            }
-        }
-
-        /*默认*/
-        @media (min-width: 980px){
-            .custom {
-                width: 800px;
-                height: 450px;
-                margin: auto;
-                padding: 10px 0 10px 0;
-                top: 10px;
-            }
-        }
-
-        /* 平板电脑和小屏电脑之间的分辨率 */
-        @media (min-width: 768px) and (max-width: 979px) {
-            .custom {
-                width: 800px;
-                height: 600px;
-                margin: auto;
-                padding: 10px 0 10px 0;
-                top: 10px;
-            }
-        }
-
-        /* 横向放置的手机和竖向放置的平板之间的分辨率 */
-        @media (max-width: 767px) {
-            .custom {
-                width: 700px;
-                height: 600px;
-                margin: auto;
-                padding: 10px 0 10px 0;
-                top: 10px;
-            }
-        }
-
-        /* 横向放置的手机及分辨率更小的设备 */
-        @media (max-width: 480px) {
-            .custom {
-                width: 450px;
-                height: 400px;
-                margin: auto;
-                padding: 10px 0 10px 0;
-                top: 10px;
-            }
-        }
-    </style>
 </head>
 <script src="js/echarts.min.js"></script>
 <script src="jquery/jquery-1.11.3.js"></script>
 <body>
+<div align="center">
+    <a class="button normal" href="index.html">首页</a>
+    <a class="button normal" href="query">列表</a>
+    <button class="button switchLight" onclick="setLight()">浅色</button>
+    <button class="button switchDark" onclick="setDark()">深色</button>
+</div>
 <div class="custom" id="point"></div>
 <div class="custom" id="sleep"></div>
 <script type="text/javascript">
-    var pointChart = echarts.init(document.getElementById('point'));
-    var sleepChart = echarts.init(document.getElementById('sleep'));
+    var pointChart = echarts.init(document.getElementById('point'), 'dark');
+    var sleepChart = echarts.init(document.getElementById('sleep'), 'dark');
 
-    pointChart.setOption({
+    var pointOption = {
         title: {
             text: '得分统计',
             subtext: '（近30天）'
         },
         tooltip: {
             trigger: 'axis',
-            formatter: '{b}<br/>{a} : {c}'
-        },
-        xAxis: {
-            data: []
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#666'
+                }
+            }
         },
         toolbox: {
-            left: 'center',
+            left: 'right',
             feature: {
                 restore: {},
                 saveAsImage: {}
             }
         },
-        dataZoom: [{
-            startValue: '2020-03-23'
-        }, {
-            type: 'inside'
+        legend: {
+            data: ['学习+尤里卡', '摸鱼', '活动', '合计']
+        },
+        grid: {
+            left: '5%',
+            right: '5%',
+            bottom: '10%',
+            containLabel: true
+        },
+        dataZoom: [
+            {
+                startValue: ''
+            }, {
+                type: 'inside'
+            }
+        ],
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        },
+        yAxis: [{
+            type: 'value'
         }],
-        visualMap: {
-            top: 10,
-            right: 10,
-            pieces: [{
-                gt: 80,
-                color: '#096'
-            }, {
-                gt: 60,
-                lte: 80,
-                color: '#ffde33'
-            }, {
-                gt: 30,
-                lte: 60,
-                color: '#ff9933'
-            }, {
-                lte: 30,
-                color: '#960328'
-            }],
-            outOfRange: {
-                color: '#999'
-            }
-        },
-        yAxis: {
-            splitLine: {
-                show: false
-            }
-        },
-        series: [{
-            name: '得分',
-            type: 'line',
-            data: [],
-            markLine: {
-                silent: true,
-                data: [{
-                    yAxis: 30
-                }, {
-                    yAxis: 60
-                }, {
-                    yAxis: 80
-                }, {
-                    yAxis: 100
-                }]
-            }
-        }]
-    });
+        series: []
+    };
+
+    pointChart.setOption(pointOption);
 
     pointChart.showLoading();
     var pointDates = [];
-    var points = [];
+    var totalPoints = [];
+    var improvePoints = [];
+    var fishingPoints = [];
+    var activityPoints = [];
     var pointStartDate = '';
 
     $.ajax({
@@ -158,10 +90,13 @@
         dataType: "json",
         success: function (result) {
             if (result) {
-                pointStartDate = result[result.length - 7].d_date;
+                pointStartDate = result[result.length - 7].date;
                 for (var i = 0; i < result.length; i++) {
-                    pointDates.push(result[i].d_date);
-                    points.push(result[i].vc_point);
+                    pointDates.push(result[i].date);
+                    totalPoints.push(result[i].totalPoint);
+                    improvePoints.push(result[i].improvePoint);
+                    fishingPoints.push(result[i].fishingPoint);
+                    activityPoints.push(result[i].activityPoint);
                 }
                 pointChart.hideLoading();
                 pointChart.setOption({
@@ -171,15 +106,48 @@
                     xAxis: {
                         data: pointDates
                     },
-                    series: [{
-                        data: points
-                    }]
+                    series: [
+                        {
+                            name: '活动',
+                            type: 'line',
+                            stack: '得分',
+                            areaStyle: {},
+                            data: activityPoints
+                        },
+                        {
+                            name: '摸鱼',
+                            type: 'line',
+                            stack: '得分',
+                            areaStyle: {},
+                            data: fishingPoints
+                        },
+                        {
+                            name: '学习+尤里卡',
+                            type: 'line',
+                            stack: '得分',
+                            areaStyle: {},
+                            data: improvePoints
+                        },
+                        {
+                            name: '合计',
+                            type: 'line',
+                            color: '#707C74',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    color: '#eee'
+                                }
+                            },
+                            data: totalPoints
+                        }
+                    ]
                 });
             }
         }
     });
 
-    sleepChart.setOption({
+    var sleepOption = {
         title: {
             text: '睡眠质量',
             subtext: '（近7天）'
@@ -216,7 +184,9 @@
                 }
             }
         ]
-    });
+    };
+
+    sleepChart.setOption(sleepOption);
 
     sleepChart.showLoading();
     var qualities = [];
@@ -249,6 +219,235 @@
             }
         }
     });
+
+    //动态切换主题
+    function setLight() {
+        pointChart.dispose();
+        pointChart = echarts.init(document.getElementById('point'), 'light');
+        pointChart.setOption(pointOption);
+
+        sleepChart.dispose();
+        sleepChart = echarts.init(document.getElementById('sleep'), 'light');
+        sleepChart.setOption(sleepOption);
+
+        var pointDates = [];
+        var totalPoints = [];
+        var improvePoints = [];
+        var fishingPoints = [];
+        var activityPoints = [];
+        var pointStartDate = '';
+        $.ajax({
+            type: "post",
+            async: true,
+            url: "showPoint",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    pointStartDate = result[result.length - 7].date;
+                    for (var i = 0; i < result.length; i++) {
+                        pointDates.push(result[i].date);
+                        totalPoints.push(result[i].totalPoint);
+                        improvePoints.push(result[i].improvePoint);
+                        fishingPoints.push(result[i].fishingPoint);
+                        activityPoints.push(result[i].activityPoint);
+                    }
+                    pointChart.hideLoading();
+                    pointChart.setOption({
+                        dataZoom: [{
+                            startValue: pointStartDate
+                        }],
+                        xAxis: {
+                            data: pointDates
+                        },
+                        series: [
+                            {
+                                name: '活动',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: activityPoints
+                            },
+                            {
+                                name: '摸鱼',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: fishingPoints
+                            },
+                            {
+                                name: '学习+尤里卡',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: improvePoints
+                            },
+                            {
+                                name: '合计',
+                                type: 'line',
+                                color: '#707C74',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        color: '#eee'
+                                    }
+                                },
+                                data: totalPoints
+                            }
+                        ]
+                    });
+                }
+            }
+        });
+
+        var qualities = [];
+        var sleepData = [];
+        $.ajax({
+            type: "post",
+            async: true,
+            url: "showSleepQuality",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        qualities.push(result[i].quality);
+                        var obj = {};
+                        obj.name = result[i].quality;
+                        obj.value = result[i].times;
+                        sleepData.push(obj);
+                    }
+                    sleepChart.hideLoading();
+                    sleepChart.setOption({
+                        legend: {
+                            data: qualities
+                        },
+                        series: [{
+                            data: sleepData
+                        }]
+                    });
+                }
+            }
+        });
+
+        document.body.style.backgroundColor="#fff";
+    }
+
+    function setDark() {
+        pointChart.dispose();
+        pointChart = echarts.init(document.getElementById('point'), 'dark');
+        pointChart.setOption(pointOption);
+        pointChart.showLoading();
+
+        sleepChart.dispose();
+        sleepChart = echarts.init(document.getElementById('sleep'), 'dark');
+        sleepChart.setOption(sleepOption);
+        sleepChart.showLoading();
+
+        pointDates = [];
+        totalPoints = [];
+        improvePoints = [];
+        fishingPoints = [];
+        activityPoints = [];
+        pointStartDate = '';
+        $.ajax({
+            type: "post",
+            async: true,
+            url: "showPoint",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    pointStartDate = result[result.length - 7].date;
+                    for (var i = 0; i < result.length; i++) {
+                        pointDates.push(result[i].date);
+                        totalPoints.push(result[i].totalPoint);
+                        improvePoints.push(result[i].improvePoint);
+                        fishingPoints.push(result[i].fishingPoint);
+                        activityPoints.push(result[i].activityPoint);
+                    }
+                    pointChart.hideLoading();
+                    pointChart.setOption({
+                        dataZoom: [{
+                            startValue: pointStartDate
+                        }],
+                        xAxis: {
+                            data: pointDates
+                        },
+                        series: [
+                            {
+                                name: '活动',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: activityPoints
+                            },
+                            {
+                                name: '摸鱼',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: fishingPoints
+                            },
+                            {
+                                name: '学习+尤里卡',
+                                type: 'line',
+                                stack: '得分',
+                                areaStyle: {},
+                                data: improvePoints
+                            },
+                            {
+                                name: '合计',
+                                type: 'line',
+                                color: '#707C74',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        color: '#eee'
+                                    }
+                                },
+                                data: totalPoints
+                            }
+                        ]
+                    });
+                }
+            }
+        });
+
+        qualities = [];
+        sleepData = [];
+        $.ajax({
+            type: "post",
+            async: true,
+            url: "showSleepQuality",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                if (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        qualities.push(result[i].quality);
+                        var obj = {};
+                        obj.name = result[i].quality;
+                        obj.value = result[i].times;
+                        sleepData.push(obj);
+                    }
+                    sleepChart.hideLoading();
+                    sleepChart.setOption({
+                        legend: {
+                            data: qualities
+                        },
+                        series: [{
+                            data: sleepData
+                        }]
+                    });
+                }
+            }
+        });
+
+        document.body.style.backgroundColor="#333";
+    }
 </script>
 </body>
 

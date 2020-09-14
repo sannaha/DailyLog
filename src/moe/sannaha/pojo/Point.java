@@ -1,30 +1,60 @@
 package moe.sannaha.pojo;
 
 public class Point {
-    private String d_date = "00-00";
-    private double vc_point = 0.00;
+    private String date = "00-00";
+    private double totalPoint = 0.00;
+    private double improvePoint = 0.00;
+    private double fishingPoint = 0.00;
+    private double activityPoint = 0.00;
 
     public Point() {
     }
 
-    public Point(String d_date, double vc_point) {
-        this.d_date = d_date;
-        this.vc_point = vc_point;
+    public Point(String date, double totalPoint, double improvePoint, double fishingPoint, double activityPoint) {
+        this.date = date;
+        this.totalPoint = totalPoint;
+        this.improvePoint = improvePoint;
+        this.fishingPoint = fishingPoint;
+        this.activityPoint = activityPoint;
     }
 
-    public String getD_date() {
-        return d_date;
+    public String getDate() {
+        return date;
     }
 
-    public void setD_date(String d_date) {
-        this.d_date = d_date;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public double getVc_point() {
-        return vc_point;
+    public double getTotalPoint() {
+        return totalPoint;
     }
 
-    public void setVc_point(double vc_point) {
-        this.vc_point = vc_point;
+    public void setTotalPoint(double totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
+    public double getImprovePoint() {
+        return improvePoint;
+    }
+
+    public void setImprovePoint(double improvePoint) {
+        this.improvePoint = improvePoint;
+    }
+
+    public double getFishingPoint() {
+        return fishingPoint;
+    }
+
+    public void setFishingPoint(double fishingPoint) {
+        this.fishingPoint = fishingPoint;
+    }
+
+    public double getActivityPoint() {
+        return activityPoint;
+    }
+
+    public void setActivityPoint(double activityPoint) {
+        this.activityPoint = activityPoint;
     }
 }

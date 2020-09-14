@@ -16,16 +16,14 @@
     <title>添加记录</title>
 
     <!-- 1. 导入CSS的全局样式 -->
-    <link href="https://dailylog.sannaha.moe/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="https://dailylog.sannaha.moe/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-    <!--  网站图标 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="css/dailylog.css" rel="stylesheet"/>
     <link rel="shortcut icon" href="images/favicon-32x32.ico">
-
-
 </head>
 <body>
 <div class="container">
-    <center><h3>添加记录</h3></center>
+    <h3>添加记录</h3>
     <form action="add" method="post">
         <%--日期-时间选择-html--%>
         <div class="form-group">
@@ -149,17 +147,17 @@
         <div class="form-group" style="text-align: center">
             <input class="btn btn-primary" type="submit" value="提交"/>
             <input class="btn btn-default" type="reset" value="重置"/>
-            <input class="btn btn-default" type="button" onclick="javascript:history.back(-1);" value="返回"/>
+            <input class="btn btn-default" type="button" onclick="history.back();" value="返回"/>
         </div>
     </form>
 </div>
 
 <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
-<script type="text/javascript" src="https://dailylog.sannaha.moe/jquery/jquery-1.11.3.js" charset="UTF-8"></script>
+<script type="text/javascript" src="jquery/jquery-1.11.3.js" charset="UTF-8"></script>
 <!-- 3. 导入bootstrap的js文件 -->
-<script type="text/javascript" src="https://dailylog.sannaha.moe/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://dailylog.sannaha.moe/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="https://dailylog.sannaha.moe/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
         //language:  'zh-CN',
@@ -193,6 +191,5 @@
         forceParse: 0
     });
 </script>
-
 </body>
 </html>

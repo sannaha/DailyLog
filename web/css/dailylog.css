@@ -1,0 +1,39 @@
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+tr th {
+    text-align: center;
+    background-color: #e3e3e3;
+}
+
+.ellipsis {
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis; /*文字隐藏后添加省略号*/
+    white-space: nowrap; /*强制不换行*/
+    width: 14em; /*不允许出现半汉字截断*/
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333;
+        color: #aaa;
+    }
+
+    h1{
+        color: #eee;
+    }
+
+    h3{
+        color: #eee;
+    }
+
+    tr th {
+        background-color: #333;
+    }
+}
