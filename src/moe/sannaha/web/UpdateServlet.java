@@ -51,14 +51,14 @@ public class UpdateServlet extends HttpServlet {
             } else {
                 try {
                     dailyLogService.update(dailyLog);
-                    resp.getWriter().print("<script language='javascript'>alert('修改成功');window.location.href='https://dailylog.sannaha.moe/query';</script>");
+                    resp.getWriter().print("<script language='javascript'>alert('修改成功');window.location.href='/query';</script>");
                 } catch (Exception e) {
                     e.printStackTrace();
                     resp.getWriter().print("<script language='javascript'>alert('修改失败');history.go(-1);</script>");
                 }
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/query';</script>");
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='/query';</script>");
         }
     }
 }

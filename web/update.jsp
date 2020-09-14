@@ -1,8 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String basePath = request.getScheme() + "s://" + request.getServerName() + path + "/";
 %>
 <!-- HTML5文档-->
 <!DOCTYPE html>
@@ -27,7 +28,6 @@
     <link href="css/dailylog.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="images/favicon-32x32.ico">
 
-
 </head>
 <body>
 <div class="container">
@@ -50,7 +50,8 @@
             <label for="t_waketime" class="col-md-1 control-label">起床时间</label>
             <div class="input-group date form_time col-md-3" data-date="" data-date-format="yyyy-MM-dd hh:ii"
                  data-link-field="dtp_input3" data-link-format="hh:ii">
-                <input class="form-control" size="16" type="text" name="t_waketime" value="${dailyLog.t_waketime}" readonly>
+                <input class="form-control" size="16" type="text" name="t_waketime" value="${dailyLog.t_waketime}"
+                       readonly>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
             </div>
@@ -61,7 +62,8 @@
             <label for="t_bedtime" class="col-md-1 control-label">上床时间</label>
             <div class="input-group date form_time col-md-3" data-date="" data-date-format="yyyy-MM-dd hh:ii"
                  data-link-field="dtp_input3" data-link-format="hh:ii">
-                <input class="form-control" size="16" type="text" name="t_bedtime" value="${dailyLog.t_bedtime}" readonly>
+                <input class="form-control" size="16" type="text" name="t_bedtime" value="${dailyLog.t_bedtime}"
+                       readonly>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
             </div>
@@ -85,7 +87,8 @@
 
         <div class="form-group">
             <label for="vc_improve">学习详情：</label>
-            <input type="text" class="form-control" id="vc_improve" name="vc_improve" value="${dailyLog.vc_improve}" placeholder="请罗列学习内容">
+            <input type="text" class="form-control" id="vc_improve" name="vc_improve" value="${dailyLog.vc_improve}"
+                   placeholder="请罗列学习内容">
         </div>
 
         <div class="form-group">
@@ -105,7 +108,8 @@
 
         <div class="form-group">
             <label for="vc_fishing">摸鱼详情：</label>
-            <input type="text" class="form-control" id="vc_fishing" name="vc_fishing" value="${dailyLog.vc_fishing}" placeholder="请罗列摸鱼内容"/>
+            <input type="text" class="form-control" id="vc_fishing" name="vc_fishing" value="${dailyLog.vc_fishing}"
+                   placeholder="请罗列摸鱼内容"/>
         </div>
 
         <div class="form-group">
@@ -125,27 +129,38 @@
 
         <div class="form-group">
             <label for="vc_eureka">尤里卡详情：</label>
-            <input type="text" class="form-control" id="vc_eureka" name="vc_eureka" value="${dailyLog.vc_eureka}" placeholder="请罗列尤里卡内容"/>
+            <input type="text" class="form-control" id="vc_eureka" name="vc_eureka" value="${dailyLog.vc_eureka}"
+                   placeholder="请罗列尤里卡内容"/>
         </div>
 
         <div class="form-group">
             <label for="vc_activitytime">活动(h)：</label>
             <select name="vc_activitytime" class="form-control" id="vc_activitytime">
-                <option value="0" <c:if test="${dailyLog.vc_activitytime == '0'}">selected="selected"</c:if>>0小时</option>
-                <option value="1" <c:if test="${dailyLog.vc_activitytime == '1'}">selected="selected"</c:if>>1小时</option>
-                <option value="2" <c:if test="${dailyLog.vc_activitytime == '2'}">selected="selected"</c:if>>2小时</option>
-                <option value="3" <c:if test="${dailyLog.vc_activitytime == '3'}">selected="selected"</c:if>>3小时</option>
-                <option value="4" <c:if test="${dailyLog.vc_activitytime == '4'}">selected="selected"</c:if>>4小时</option>
-                <option value="5" <c:if test="${dailyLog.vc_activitytime == '5'}">selected="selected"</c:if>>5小时</option>
-                <option value="6" <c:if test="${dailyLog.vc_activitytime == '6'}">selected="selected"</c:if>>6小时</option>
-                <option value="7" <c:if test="${dailyLog.vc_activitytime == '7'}">selected="selected"</c:if>>7小时</option>
-                <option value="8" <c:if test="${dailyLog.vc_activitytime == '8'}">selected="selected"</c:if>>8小时</option>
+                <option value="0" <c:if test="${dailyLog.vc_activitytime == '0'}">selected="selected"</c:if>>0小时
+                </option>
+                <option value="1" <c:if test="${dailyLog.vc_activitytime == '1'}">selected="selected"</c:if>>1小时
+                </option>
+                <option value="2" <c:if test="${dailyLog.vc_activitytime == '2'}">selected="selected"</c:if>>2小时
+                </option>
+                <option value="3" <c:if test="${dailyLog.vc_activitytime == '3'}">selected="selected"</c:if>>3小时
+                </option>
+                <option value="4" <c:if test="${dailyLog.vc_activitytime == '4'}">selected="selected"</c:if>>4小时
+                </option>
+                <option value="5" <c:if test="${dailyLog.vc_activitytime == '5'}">selected="selected"</c:if>>5小时
+                </option>
+                <option value="6" <c:if test="${dailyLog.vc_activitytime == '6'}">selected="selected"</c:if>>6小时
+                </option>
+                <option value="7" <c:if test="${dailyLog.vc_activitytime == '7'}">selected="selected"</c:if>>7小时
+                </option>
+                <option value="8" <c:if test="${dailyLog.vc_activitytime == '8'}">selected="selected"</c:if>>8小时
+                </option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="vc_activity">活动详情：</label>
-            <input type="text" class="form-control" id="vc_activity" name="vc_activity" value="${dailyLog.vc_activity}" placeholder="请罗列活动内容"/>
+            <input type="text" class="form-control" id="vc_activity" name="vc_activity" value="${dailyLog.vc_activity}"
+                   placeholder="请罗列活动内容"/>
         </div>
 
         <div class="form-group">

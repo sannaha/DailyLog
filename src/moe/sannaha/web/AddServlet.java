@@ -52,14 +52,14 @@ public class AddServlet extends HttpServlet {
             } else {
                 try {
                     dailyLogService.add(dailyLog);
-                    resp.getWriter().print("<script language='javascript'>alert('添加成功');window.location.href='https://dailylog.sannaha.moe/query';</script>");
+                    resp.getWriter().print("<script language='javascript'>alert('添加成功');window.location.href='/query';</script>");
                 } catch (Exception e) {
                     e.printStackTrace();
                     resp.getWriter().print("<script language='javascript'>alert('添加失败');history.go(-1);</script>");
                 }
             }
         } else {
-            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='https://dailylog.sannaha.moe/show.html';</script>");
+            resp.getWriter().print("<script language='javascript'>alert('您没有操作权限！');window.location.href='/show.html';</script>");
         }
 
     }
